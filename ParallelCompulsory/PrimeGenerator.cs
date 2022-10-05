@@ -63,13 +63,26 @@ namespace ParallelCompulsory
                 return primes;
             }
 
-            long start = first > 2 ? first : 2;
+            long[] numbers;
 
-            long[] numbers = new long[last - start + 1];
-
-            for (long i = 0; i < numbers.Length; i++)
+            // doubled performance by only checking odd numbers (and 2) as prime candidates
+            if (first <= 2)
             {
-                numbers[i] = i + start;
+                numbers = new long[((last - 1) / 2) + 1];
+                numbers[0] = 2;
+                for (int i = 1; i < numbers.Length; i++)
+                {
+                    numbers[i] = i * 2 + 1;  
+                }
+            }
+            else
+            {
+                long start = first % 2 == 0 ? first + 1 : first;
+                numbers = new long[(last - first) / 2 + 1];
+                for (int i = 0; i < numbers.Length; i++)
+                {
+                    numbers[i] = i * 2 + start;
+                }
             }
 
             primes = numbers.AsParallel()
@@ -89,7 +102,8 @@ namespace ParallelCompulsory
             }
 
             // only checking up to squareroot is *essential* for performance
-            for (long i = 2; i * i <= number; i++)
+            // also doubled performance by only checking for divisibility with odd numbers
+            for (long i = 3; i * i <= number; i = i + 2)
             {
                 if (number % i == 0)
                 {
