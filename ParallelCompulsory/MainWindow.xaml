@@ -1,0 +1,90 @@
+﻿<Window x:Class="ParallelCompulsory.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ParallelCompulsory"
+        mc:Ignorable="d"
+        Title="Prime Generator" Height="400" Width="600">
+    <Grid Margin="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="lblPrimes" Grid.Column="0"></Label>
+        <ListBox Grid.Row="1" x:Name="lstPrimes"/>
+
+        <Label Grid.Column="1" Margin="5, 0, 0, 0">Enter range of numbers for which to find primes</Label>
+
+        <StackPanel Grid.Row="1" Grid.Column="1" Margin="5, 0, 0, 0">
+
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label>From:</Label>
+                <TextBox Grid.Row="1" Margin="0, 0, 5, 0"  x:Name="txtFrom"/>
+                <Label Grid.Column="1">To:</Label>
+                <TextBox Grid.Row="1" Margin="5, 0, 0, 0" Grid.Column="1" x:Name="txtTo"/>
+
+            </Grid>
+
+            <Button x:Name="btnGenerateSeq" Margin="0, 5, 0, 0"
+                Click="ButtonGeneratePrimesSequential_Click">Generate primes sequentially</Button>
+
+            <Button x:Name="btnGeneratePar" Margin="0, 5, 0, 0"
+                Click="ButtonGeneratePrimesParallel_Click">Generate primes in parallel</Button>
+
+            <Button x:Name="btnStop" Margin="0, 5, 0, 0"
+                Click="ButtonStopGeneration_Click"  IsEnabled="False">Stop generation</Button>
+
+            <Label x:Name="lblStatus" Margin="0, 5, 0, 0"/>
+
+        </StackPanel>
+
+        <Grid Grid.Row="2">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="btnFirst" Margin="5, 5, 5, 0" Tag="FIRST"  
+                    Click="Paginate" IsEnabled="False">First</Button>            
+            <Button x:Name="btnPrev" Margin="5, 5, 5, 0" Tag="PREV" 
+                    Grid.Column="1" Click="Paginate" IsEnabled="False">Prev</Button>            
+            <Button x:Name="btnNext" Margin="5, 5, 5, 0" Tag="NEXT" 
+                    Grid.Column="2" Click="Paginate" IsEnabled="False">Next</Button>            
+            <Button x:Name="btnLast" Margin="5, 5, 5, 0" Tag="LAST" 
+                    Grid.Column="3" Click="Paginate" IsEnabled="False">Last</Button>
+
+        </Grid>
+        
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="5, 0, 0, 0">
+
+            <Button x:Name="btnTestGUI" Margin="0, 5, 0, 0" Click="ButtonTestGUI">Test GUI functionality</Button>
+
+            <Label x:Name="lblTest" Margin="0, 5, 0, 0"/>
+
+        </StackPanel>
+
+    </Grid>
+</Window>
