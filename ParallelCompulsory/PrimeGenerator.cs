@@ -113,5 +113,45 @@ namespace ParallelCompulsory
 
             return isPrime;
         }
+
+        // much faster than GetPrimesParallel in most cases; however is *almost* never faster than
+        // GetPrimesSequential (but getting closer), whereas GetPrimesParallel is faster than GetPrimesSequential
+        // in some special cases with finding prime numbers in small intervals between high numbers
+        
+        // As such, there is presently no use case for this method, but with some improvements,
+        // it might beat the sequential version -- very much WIP
+        public List<long> GetPrimesParallelEratosthenes(long first, long last, CancellationToken token)
+        {
+            bool[] isNotPrime = new bool[last + 1];
+
+            isNotPrime[0] = true;
+            isNotPrime[1] = true;
+
+            Parallel.For(2, last + 1, (i) =>
+            {
+                token.ThrowIfCancellationRequested();
+
+                if (!isNotPrime[i])
+                {
+                    for (long j = i + i; j <= last; j = j + i)
+                    {
+                        if (isNotPrime[i])
+                        {
+                            break;
+                        }
+                        isNotPrime[j] = true;
+                    }
+                }
+                
+            });
+
+            List<long> primes = isNotPrime.AsParallel()
+                .Select((x, i) => new KeyValuePair<int, bool>(i, x))
+                .Where(x => x.Value == false && x.Key >= first)
+                .Select(x => (long)x.Key)
+                .ToList();
+
+            return primes;
+        }
     }
 }
